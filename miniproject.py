@@ -97,4 +97,25 @@ with torch.no_grad():
 output = prediction.cpu().numpy()
 
 plt.imshow(output)
+# Function to convert depth values to real-world distances
+def depth_to_distance(depth_value, depth_scale):
+    # depth_scale is a scaling factor to convert depth to real-world units
+    real_distance = depth_value * depth_scale
+    return real_distance
+# take input for  the cordinate
+x =int (input("horizontal coordinate"))
+y= int (input("vertical coordinate"))
+# Example usage
+ # Coordinates of the pixel for which we want the distance
+depth_value = output[y, x]
+depth_scale = 1.0  # Example scale factor; you need to calibrate this for your specific use case
+distance = depth_to_distance(depth_value, depth_scale)
 
+print(f"The distance at pixel ({x}, {y}) is: {distance} units")
+
+distance_in_meters = distance * 0.0002645833
+
+print(f"The distance at pixel ({x}, {y}) is: {distance_in_meters} meters")
+
+distance_in_cm = distance_in_meters*100
+print(f"The distance at pixel ({x}, {y}) is: {distance_in_cm} cm")
